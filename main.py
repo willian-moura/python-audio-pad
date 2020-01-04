@@ -100,9 +100,11 @@ class CellPad:
         self.loop = not self.loop
         if self.loop:
             self.stopbtn["state"] = DISABLED
+            self.close["state"] = DISABLED
             self.loopbtn.select()
         else:
             self.stopbtn["state"] = ACTIVE
+            self.close["state"] = ACTIVE
             self.loopbtn.deselect()
         statusbar["text"] = self.loop
 
@@ -166,8 +168,26 @@ class CellPad:
         self.channel.set_volume(self.volume)
 
     def onClose(self):
-        statusbar["text"] = "close"
-
+        if self.stopped:
+            statusbar["text"] = "close"
+            self.label_name["text"] = "..."
+            self.file_name = None
+            self.busy = False
+        else:
+            statusbar["text"] = "close"
+            self.loopbtn.grid_forget()
+            self.loop = False
+            self.loopbtn.grid(row=0, column=1)
+            self.channel.stop()
+            self.file_name = None
+            self.channel = None
+            self.sound = None
+            self.busy = False
+            self.paused = False
+            self.played = False
+            self.stopped = True
+            self.label_name["text"] = "..."
+            self.playbtn.configure(image=self.playphoto)
 
 '''class FancyListbox(tkinter.Listbox):
 
