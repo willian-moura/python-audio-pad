@@ -33,7 +33,6 @@ class CellPad:
     def drawPad(self, master=None):
         pad = ttk.Frame(master, width=100, height=150, relief=GROOVE)
         pad.pack_propagate(0)
-        #pad.grid_propagate(0)
         pad.pack(side=LEFT, padx=10, pady=10)
 
         self.label_name = ttk.Label(pad, text=os.path.basename(self.file_name), relief=FLAT, font='Times 10 italic')
@@ -59,7 +58,6 @@ class CellPad:
         self.loopphoto = PhotoImage(file='icons/circular-arrow16.png')
         self.loopbtn = ttk.Checkbutton(self.buttons, image=self.loopphoto, style='Toolbutton', command=not self.loop)
         self.loopbtn.grid(row=0, column=2)
-        # self.loopbtn = ttk.Checkbutton(self.buttons, image=self.loopphoto, style='Toolbutton')
 
     def onPause(self):
         if self.stopped:
@@ -138,7 +136,7 @@ mixer.init()
 # LeftFrame - The listbox (songslist)
 # RightFrame - TopFrame,MiddleFrame and the BottomFrame
 
-#---LEFT FRAME---
+# ---LEFT FRAME---
 
 leftframe = Frame(root)
 leftframe.pack(side=LEFT, padx=30, pady=30)
@@ -148,6 +146,7 @@ songsListbox.pack(pady=10)
 
 addBtn = ttk.Button(leftframe, text="+ Add", command=browse_file)
 addBtn.pack(side=LEFT)
+
 
 def del_song():
     selected_song = songsListbox.curselection()
@@ -164,7 +163,7 @@ delBtn.pack(side=RIGHT)
 rightframe = Frame(root)
 rightframe.pack(pady=30)
 
-# TOP FRAME
+# TOP FRAME -> Pads for background musics
 topframe = ttk.Frame(rightframe, relief=SUNKEN)
 topframe.pack(pady=20)
 
@@ -175,14 +174,27 @@ for i in range(8):
     musicpads.append(pad)
     musicpads[i].drawPad(topframe)
 
+# MIDDLE FRAME -> Pads for background and environment songs
 middleframe = ttk.Frame(rightframe, relief=SUNKEN)
 middleframe.pack(pady=20)
 
+environmentpads = []
 
-bottonframe = ttk.Frame(rightframe, relief=SUNKEN)
-bottonframe.pack(pady=20)
+for i in range(8):
+    pad = CellPad()
+    environmentpads.append(pad)
+    environmentpads[i].drawPad(middleframe)
 
+# BOTTOM FRAME -> Pads for effect songs
+bottomframe = ttk.Frame(rightframe, relief=SUNKEN)
+bottomframe.pack(pady=20, side=BOTTOM)
 
+effectpads = []
+
+for i in range(8):
+    pad = CellPad()
+    effectpads.append(pad)
+    effectpads[i].drawPad(bottomframe)
 
 root.mainloop()
 
