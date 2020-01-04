@@ -7,17 +7,20 @@ from tkinter import ttk
 from tkinter import PhotoImage
 from tkinter import filedialog
 from pygame import mixer
+import pygame
+import threading
 from mutagen.mp3 import MP3
 
-'''from pydub import AudioSegment
+from pydub import AudioSegment
 
-sound = AudioSegment.from_mp3("./sample.mp3")
-sound.export("./sample.ogg", format="ogg")'''
+'''sound = AudioSegment.from_mp3("./Aaron Smith - Dancin (feat Luvli) - Krono Remix.mp3")
+sound.export("./sample2.ogg", format="ogg")'''
 
 #CONSTANTES
 FRAMES_PADY = 30
 FRAMES_PADX = 30
-
+CHANNELS = 10
+SONGEND = pygame.constants.USEREVENT
 
 class CellPad:
     def __init__(self):
@@ -25,6 +28,7 @@ class CellPad:
     busy = False
     file_name = None
     channel = None
+    sound = None
     volume = 0.7
     paused = False
     played = False
@@ -67,6 +71,7 @@ class CellPad:
         self.buttons = ttk.Frame(pad, padding='5 5')
         self.buttons.pack()
 
+
         self.stopphoto = PhotoImage(file='icons/stop16.png')
         self.stopbtn = ttk.Button(self.buttons, image=self.stopphoto, command=self.onStop)
         self.stopbtn.grid(row=0, column=0)
@@ -76,8 +81,13 @@ class CellPad:
         self.pausebtn.grid(row=0, column=1)'''
 
         self.loopphoto = PhotoImage(file='icons/circular-arrow16.png')
-        self.loopbtn = ttk.Checkbutton(self.buttons, image=self.loopphoto, style='Toolbutton', command=not self.loop)
+        self.loopbtn = ttk.Checkbutton(self.buttons, image=self.loopphoto, style='Toolbutton', command=self.onLoop)
         self.loopbtn.grid(row=0, column=1)
+        #self.loopImg = Label(self.buttons, image=self.loopphoto)
+
+        #self.loopbtn["onvalue"] = True
+        #self.loopbtn["offvalue"] = False
+        #self.loopbtn["variable"] = self.loop
 
         self.sclBtns = ttk.Frame(pad, padding='5 5')
         self.sclBtns.pack()
@@ -86,15 +96,54 @@ class CellPad:
         self.scale.set(70)  # implement the default value of self.scale when music player starts
         self.scale.pack()
 
+    def onLoop(self):
+        self.loop = not self.loop
+        if self.loop:
+            self.stopbtn["state"] = DISABLED
+            self.loopbtn.select()
+        else:
+            self.stopbtn["state"] = ACTIVE
+            self.loopbtn.deselect()
+        statusbar["text"] = self.loop
+
+    def getChannel(self):
+        for i in range(CHANNELS):
+            if not mixer.Channel(i).get_busy():
+                return i
+            else:
+                if i== CHANNELS-1:
+                    tkinter.messagebox.showerror('Channels full', 'Number maximum of channels reached')
+                    return None
+
+    def songsEnd(self):
+        while 1:
+            if not self.channel.get_busy():
+                if self.loop:
+                    self.channel.play(self.sound)
+                else:
+                    statusbar["text"] = "end"
+                    self.stopped = True
+                    self.playbtn.configure(image=self.playphoto)
+                    break
+
     def onPause(self):
         statusbar["text"] = self.file_name
         if self.stopped:
             self.played = True
             self.stopped = False
             self.paused = False
+            self.channel = mixer.Channel(self.getChannel())
+            self.sound = mixer.Sound(self.file_name)
+            self.channel.play(self.sound)
+            t1 = threading.Thread(target=self.songsEnd)
+            t1.start()
         else:
-            self.paused = not self.paused
-        #self.paused = not self.paused
+            if self.paused:
+                self.channel.unpause()
+                self.paused = False
+            else:
+                self.channel.pause()
+                self.paused = True
 
         if self.played:
             if self.paused:
@@ -105,11 +154,16 @@ class CellPad:
             self.playbtn.configure(image=self.playphoto)
 
     def onStop(self):
-        self.stopped = not self.stopped
-        self.playbtn.configure(image=self.playphoto)
+        if not self.stopped:
+            self.channel.stop()
+            self.stopped = True
+            self.playbtn.configure(image=self.playphoto)
+        else:
+            pass
 
     def setVol(self, val):
         self.volume = float(val) / 100
+        self.channel.set_volume(self.volume)
 
     def onClose(self):
         statusbar["text"] = "close"
@@ -173,6 +227,10 @@ root.config(menu=menubar)
 # Create the submenu
 
 subMenu = Menu(menubar, tearoff=0)
+
+pygame.init()
+mixer.init()
+mixer.set_num_channels(CHANNELS)
 
 songslist = []
 
