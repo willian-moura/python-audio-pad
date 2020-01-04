@@ -63,6 +63,7 @@ class CellPad:
         if self.stopped:
             self.played = True
             self.stopped = False
+            self.paused = False
         else:
             self.paused = not self.paused
         #self.paused = not self.paused
