@@ -265,7 +265,9 @@ subMenu.add_command(label="Open", command=browse_file)
 subMenu.add_command(label="Exit", command=root.destroy)
 
 def about_us():
-    tkinter.messagebox.showinfo('About Melody', 'This is a music player build using Python Tkinter by @attreyabhatt')
+    tkinter.messagebox.showinfo('About SoundPadPy', 'This is a music player build using Python Tkinter by '
+                                                    '@mrlactobacilo\nThe code base to this project is '
+                                                    '\nhttps://github.com/attreyabhatt/Python-Music-Player')
 
 
 subMenu = Menu(menubar, tearoff=0)
