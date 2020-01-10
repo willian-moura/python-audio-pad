@@ -117,17 +117,6 @@ class CellPad:
                     tkinter.messagebox.showerror('Channels full', 'Number maximum of channels reached')
                     return None
 
-    def songsEnd(self):
-        while 1:
-            if not self.channel.get_busy():
-                if self.loop:
-                    self.channel.play(self.sound)
-                else:
-                    statusbar["text"] = "end"
-                    self.stopped = True
-                    self.playbtn.configure(image=self.playphoto)
-                    break
-
     def onPause(self):
         statusbar["text"] = self.file_name
         if self.stopped:
@@ -137,8 +126,7 @@ class CellPad:
             self.channel = mixer.Channel(self.getChannel())
             self.sound = mixer.Sound(self.file_name)
             self.channel.play(self.sound)
-            t1 = threading.Thread(target=self.songsEnd)
-            t1.start()
+            playinglist.append(self)
         else:
             if self.paused:
                 self.channel.unpause()
@@ -252,6 +240,8 @@ pygame.init()
 mixer.init()
 mixer.set_num_channels(CHANNELS)
 
+playinglist = []
+
 songslist = []
 
 # songslist - contains the full path + filename
@@ -350,6 +340,20 @@ def toEffect():
                 break
         idx += 1
 
+def busyMonitory():
+    while True:
+        for cell in playinglist:
+            if not cell.channel.get_busy():
+                if cell.loop:
+                    cell.channel.play(cell.sound)
+                else:
+                    statusbar["text"] = "end"
+                    cell.stopped = True
+                    cell.playbtn.configure(image=cell.playphoto)
+                    playinglist.remove(cell)
+
+        statusbar["text"] = len(playinglist)
+
 # ---LEFT FRAME---
 leftframe = Frame(root)
 leftframe.pack(side=LEFT, padx=30, pady=30)
@@ -421,7 +425,8 @@ for i in range(8):
     effectpads.append(pad)
     effectpads[i].drawPad(bottomframe)
 
-
+t1 = threading.Thread(target=busyMonitory)
+t1.start()
 
 root.mainloop()
 
