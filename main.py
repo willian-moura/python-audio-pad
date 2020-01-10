@@ -9,9 +9,8 @@ from tkinter import filedialog
 from pygame import mixer
 import pygame
 import threading
-from mutagen.mp3 import MP3
-
-from pydub import AudioSegment
+import pydub
+from os.path import isdir, join, basename, splitext
 
 '''sound = AudioSegment.from_mp3("./Aaron Smith - Dancin (feat Luvli) - Krono Remix.mp3")
 sound.export("./sample2.ogg", format="ogg")'''
@@ -273,6 +272,34 @@ subMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=subMenu)
 subMenu.add_command(label="About Us", command=about_us)
 
+def convertMP3toOGG(songpath, path):
+    statusbar["text"] = "Converting " + songpath
+    soundname = basename(songpath)
+    sound = pydub.AudioSegment.from_mp3(songpath)
+    sound.export(join(path, splitext(soundname)[0] + ".ogg"), format="ogg")
+
+
+def file_conversor():
+    path = join(os.getcwd(), "converted_songs")
+    try:
+        if not isdir(path):
+            os.mkdir(path)
+    except OSError:
+        tkinter.messagebox.showinfo('Error', 'Creation of directory %s failed' % path)
+    filespath = filedialog.askopenfilename(multiple=True, title="Files to converter")
+
+    try:
+        statusbar["text"] = "Converting files..."
+        [convertMP3toOGG(f, path) for f in filespath]
+    except OSError:
+        tkinter.messagebox.showinfo('Error', 'Conversion of file(s) failed!')
+    else:
+        tkinter.messagebox.showinfo('Successful', 'Conversion of file(s) done!')
+
+subMenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Conversor", menu=subMenu)
+subMenu.add_command(label="MP3 to OGG", command=file_conversor)
+
 mixer.init()
 
 # Root Window - StatusBar, LeftFrame, RightFrame
@@ -347,12 +374,11 @@ def busyMonitory():
                 if cell.loop:
                     cell.channel.play(cell.sound)
                 else:
-                    statusbar["text"] = "end"
                     cell.stopped = True
                     cell.playbtn.configure(image=cell.playphoto)
                     playinglist.remove(cell)
 
-        statusbar["text"] = len(playinglist)
+        #statusbar["text"] = len(playinglist)
 
 # ---LEFT FRAME---
 leftframe = Frame(root)
