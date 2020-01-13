@@ -299,7 +299,7 @@ def file_conversor():
         tkinter.messagebox.showinfo('Successful', 'Conversion of file(s) done!')
 
 subMenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Conversor", menu=subMenu)
+menubar.add_cascade(label="Converter", menu=subMenu)
 subMenu.add_command(label="MP3 to OGG", command=file_conversor)
 
 mixer.init()
@@ -455,6 +455,9 @@ for i in range(8):
 
 t1 = threading.Thread(target=busyMonitory)
 t1.start()
+
+tkinter.messagebox.showinfo('Wellcome to SoundPadPy', 'This sound pad just works with WAV and OGG audio files, '
+                             'for another file format please use the converter tool.')
 
 root.mainloop()
 
