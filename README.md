@@ -1,4 +1,6 @@
 # python-audio-pad
+![Python SoundTable](./images/example.jpg)
+***
 Tendo o objetivo principal de simular uma mesa de som, a aplicação oferece ao usuário um total de 24 canais, onde cada um conta com as seguintes funções:
 - Play/pause: tocar/pausar a faixa no canal selecionado;
 - Stop: para a faixa completamente, não sendo possível continuar executando-a de onde parou;
@@ -17,8 +19,6 @@ Os arquivos de áudio devem ser primeiramente adicionados à lista posicionada n
 
 ## Usando no RPG
 O Python SoundTable funciona muito bem na sonorização de partidas de RPG, proporcionando o controle de diversas faixas de áudio simultâneas, perfeito para quem precisa tocar um efeito de porta abrindo, enquanto toca uma música de fundo e uma faixa com o som ambiente de uma taverna, por exemplo.
-
-## Imagens
 
 
 
