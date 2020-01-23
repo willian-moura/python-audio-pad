@@ -1,5 +1,5 @@
 # python-audio-pad
-![Python SoundTable](./images/example.jpg)
+  ![Python SoundTable](/images/example.png)
 ***
 Tendo o objetivo principal de simular uma mesa de som, a aplicação oferece ao usuário um total de 24 canais, onde cada um conta com as seguintes funções:
 - Play/pause: tocar/pausar a faixa no canal selecionado;
