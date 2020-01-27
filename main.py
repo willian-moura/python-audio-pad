@@ -12,13 +12,10 @@ import threading
 import pydub
 from os.path import isdir, join, basename, splitext
 
-'''sound = AudioSegment.from_mp3("./Aaron Smith - Dancin (feat Luvli) - Krono Remix.mp3")
-sound.export("./sample2.ogg", format="ogg")'''
-
 #CONSTANTES
 FRAMES_PADY = 30
 FRAMES_PADX = 30
-CHANNELS = 10
+CHANNELS = 24
 SONGEND = pygame.constants.USEREVENT
 
 class CellPad:
