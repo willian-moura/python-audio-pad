@@ -1,6 +1,16 @@
 # python-audio-pad
   ![Python SoundTable](/images/example.png)
 ***
+
+## Instalação
+`$ git clone git@github.com:willian-moura/python-audio-pad.git`
+
+`$ cd python-audio-pad`
+
+`$ python3 -m pip install pygame`
+
+`$ python3 main.py`
+
 Tendo o objetivo principal de simular uma mesa de som, a aplicação oferece ao usuário um total de 24 canais, onde cada um conta com as seguintes funções:
 - Play/pause: tocar/pausar a faixa no canal selecionado;
 - Stop: para a faixa completamente, não sendo possível continuar executando-a de onde parou;
