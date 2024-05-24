@@ -3,6 +3,18 @@
 # python-audio-pad
   ![Python SoundTable](/images/example.png)
 ***
+## Requeriments
+- python3
+- pygame
+
+## Installig
+`$ git clone git@github.com:willian-moura/python-audio-pad.git`
+
+`$ cd python-audio-pad`
+
+`$ python3 -m pip install pygame`
+
+`$ python3 main.py`
 
 The mainly goal for this application is to simulate a sound table, offering to the user 24 channels, where each one can:
 - play/pause the track in the selected channel;
@@ -18,15 +30,6 @@ The audio files must be first added to the list at the left side, that has the f
 - Environments: add file audio selected to the first free channel available in the Environments section;
 
 **The application only accepts OFF or WAV files**, to MP3 files, convert them using the converter available in the application.
-
-## Installig
-`$ git clone git@github.com:willian-moura/python-audio-pad.git`
-
-`$ cd python-audio-pad`
-
-`$ python3 -m pip install pygame`
-
-`$ python3 main.py`
 
 ## Using in the RPG
 The Python SoundTable works very well to the RPG (tabletop roleplaying games) sound environment, giving the control to many audio tracks simultaneously, what it's perfect to who needs play a opening door effect while play a background music, for example.
