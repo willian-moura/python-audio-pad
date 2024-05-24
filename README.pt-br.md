@@ -2,6 +2,10 @@
   ![Python SoundTable](/images/example.png)
 ***
 
+## Requerimentos
+- python3
+- pygame
+
 ## Instalação
 `$ git clone git@github.com:willian-moura/python-audio-pad.git`
 
