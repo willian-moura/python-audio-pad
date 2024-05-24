@@ -19,6 +19,12 @@ The audio files must be first added to the list at the left side, that has the f
 
 **The application only accepts OFF or WAV files**, to MP3 files, convert them using the converter available in the application.
 
+## Installig
+`$ git clone git@github.com:willian-moura/python-audio-pad.git`
+`$ cd python-audio-pad`
+`$ python3 -m pip install pygame`
+`$ python3 main.py`
+
 ## Using in the RPG
 The Python SoundTable works very well to the RPG (tabletop roleplaying games) sound environment, giving the control to many audio tracks simultaneously, what it's perfect to who needs play a opening door effect while play a background music, for example.
 
