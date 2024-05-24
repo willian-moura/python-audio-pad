@@ -21,8 +21,11 @@ The audio files must be first added to the list at the left side, that has the f
 
 ## Installig
 `$ git clone git@github.com:willian-moura/python-audio-pad.git`
+
 `$ cd python-audio-pad`
+
 `$ python3 -m pip install pygame`
+
 `$ python3 main.py`
 
 ## Using in the RPG
